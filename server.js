@@ -78,6 +78,13 @@ app.get('/api/animals', (req, res) => {
     res.json(results);
 });
 
+// create a route to the server that accepts data to be used or stored in server
+app.post('/api/animals', (req,res) => {
+  // req.body is where our incoming content will be
+  console.log(req.body);
+  res.json(req.body);
+});
+
 
 
 // getting server to listen
