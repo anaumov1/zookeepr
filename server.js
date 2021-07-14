@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 
 // code to let heroku set an environment so it can run on port 80
@@ -22,11 +24,14 @@ function findById(id, animalsArray) {
 }
 
 function createNewAnimal(body, animalsArray) {
-  console.log(body);
-  // our function's main code will go here!
+  const animal = body;
+  animalsArray.push(animal);
+  fs.writeFileSync(
+    path.join(__dirname, './data/animals.json'),
+    JSON.stringify({ animals: animalsArray }, null, 2)
+  );
 
-  // return finished code to post route for response
-  return body;
+  return animal;
 }
 
 
@@ -93,8 +98,12 @@ app.get('/api/animals', (req, res) => {
 
 // create a route to the server that accepts data to be used or stored in server
 app.post('/api/animals', (req,res) => {
-  // req.body is where our incoming content will be
-  console.log(req.body);
+  // set id based on what the next index of the array will be
+  req.body.id = animals.length.toString();
+
+  // add animal to json file and animals array in this function
+  const animal = createNewAnimal(req.body, animals);
+
   res.json(req.body);
 });
 
