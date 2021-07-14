@@ -6,6 +6,11 @@ const PORT = process.env.PORT || 3001;
 // instantiate the server
 const app = express();
 
+// parse incoming string or array data
+app.use(express.urlencoded({ extended: true }));
+// parse incoming JSON data
+app.use(express.json());
+
 // require data
 const { animals } = require('./data/animals');
 
@@ -14,6 +19,14 @@ const { animals } = require('./data/animals');
 function findById(id, animalsArray) {
   const result = animalsArray.filter(animal => animal.id === id)[0];
   return result;
+}
+
+function createNewAnimal(body, animalsArray) {
+  console.log(body);
+  // our function's main code will go here!
+
+  // return finished code to post route for response
+  return body;
 }
 
 
