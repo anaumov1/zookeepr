@@ -12,6 +12,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+// route to add css and js
+app.use(express.static('public'));
 
 // require data
 const { animals } = require('./data/animals');
@@ -126,6 +128,10 @@ app.post('/api/animals', (req,res) => {
     const animal = createNewAnimal(req.body, animals);
     res.json(animal);
   }
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 
