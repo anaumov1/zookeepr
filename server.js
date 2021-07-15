@@ -19,44 +19,6 @@ app.use(express.static('public'));
 const { animals } = require('./data/animals');
 
 
-
-
-// creating a new GET route for animals using animal id to sort by animal
-app.get('/api/animals/:id',  (req, res) => {
-  const result = findById(req.params.id, animals);
-  if (result) {
-    res.json(result); 
-  } else {
-    res.send(404);
-  }
-});
-
-
-
-
-// adding the route
-app.get('/api/animals', (req, res) => {
-    let results =animals;
-    if (req.query) {
-        results = filterByQuery(req.query, results);
-      }
-    res.json(results);
-});
-
-// create a route to the server that accepts data to be used or stored in server
-app.post('/api/animals', (req,res) => {
-  // set id based on what the next index of the array will be
-  req.body.id = animals.length.toString();
-
-  // if any data in req.body is incorrect, send 400 error back
-  if (!validateAnimal(req.body)) {
-    res.status(400).send('The animal is not properly formatted.');
-  } else {
-    const animal = createNewAnimal(req.body, animals);
-    res.json(animal);
-  }
-});
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
